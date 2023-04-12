@@ -15,8 +15,7 @@ if (databaseEnv.nodeEnv !== "dev") {
 
 export default new DataSource({
   type: "postgres",
-  // url: "",
-  port: 5432,
+
   host: databaseEnv.host,
   username: databaseEnv.username,
   password: databaseEnv.password,
