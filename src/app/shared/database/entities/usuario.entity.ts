@@ -43,10 +43,4 @@ export class UsuarioEntity {
     name: "dthr_cadastro",
   })
   dthrCadastro: Date;
-
-  @OneToMany(
-    () => VagaEntity,
-    (vaga) => vaga.usuario
-  )
-  vagas: VagaEntity[];
 }
