@@ -14,7 +14,7 @@ export class CandidaturaRepository {
       where: {
         idVaga,
       },
-      relations: ["candidato"],
+      relations: ["candidato", "vagas"],
     });
 
     return result.map((item) =>
@@ -23,17 +23,16 @@ export class CandidaturaRepository {
   }
 
   public async getById(idCandidato: string) {
-    console.log("entrou database");
     const result = await this.repository.find({
       where: {
         idCandidato,
       },
-      relations: ["candidato", "vaga"],
+      relations: {
+        candidato: true,
+        vaga: { recrutador: true },
+      },
     });
 
-    console.log(result);
-
-    console.log("saiu database");
     return result.map((item) =>
       this.mapEntityToModel(item)
     );

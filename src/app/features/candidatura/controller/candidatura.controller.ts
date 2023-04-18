@@ -34,8 +34,6 @@ export class CandidaturaController {
     res: Response
   ) {
     try {
-      console.log("entrou controller");
-
       const candidato = req.headers[
         "usuario"
       ] as string;
