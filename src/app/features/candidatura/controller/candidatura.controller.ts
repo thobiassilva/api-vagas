@@ -45,9 +45,7 @@ export class CandidaturaController {
           candidatoDecoded._id
         );
 
-      return res
-        .status(result.code)
-        .send(result.data);
+      return res.status(result.code).send(result);
     } catch (error: any) {
       return ApiError.serverError(res, error);
     }

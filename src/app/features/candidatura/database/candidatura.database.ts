@@ -14,7 +14,11 @@ export class CandidaturaRepository {
       where: {
         idVaga,
       },
-      relations: ["candidato", "vagas"],
+      relations: [
+        "candidato",
+        "vaga",
+        "vaga.recrutador",
+      ],
     });
 
     return result.map((item) =>

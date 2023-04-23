@@ -1,4 +1,5 @@
 import { Candidatura } from "../../../models/candidatura.model";
+import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
 import { Return } from "../../../shared/util/return.contract";
 import { UsuarioRepository } from "../../usuario/database/usuario.repository";
 import { VagaRepository } from "../../vaga/database/vaga.repository";
@@ -98,6 +99,11 @@ export class AplicacaoUsecase {
       vaga
     );
     await repository.create(newCandidatura);
+
+    const cacheRepository = new CacheRepository();
+    await cacheRepository.delete(
+      `listaCandidaturas:${data.idCandidato}`
+    );
     return {
       ok: true,
       code: 201,
