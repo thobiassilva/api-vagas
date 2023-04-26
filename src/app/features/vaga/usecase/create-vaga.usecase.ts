@@ -1,4 +1,5 @@
 import { Vaga } from "../../../models/vaga.model";
+import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
 import { Return } from "../../../shared/util/return.contract";
 import { UsuarioRepository } from "../../usuario/database/usuario.repository";
 import { VagaRepository } from "../database/vaga.repository";
@@ -61,6 +62,8 @@ export class CreateVagaUsecase {
 
     const repository = new VagaRepository();
     await repository.create(vaga);
+    const cacheRepository = new CacheRepository();
+    await cacheRepository.delete(`listaVagas`);
 
     return {
       ok: true,

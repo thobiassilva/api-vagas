@@ -1,3 +1,4 @@
+import { error } from "console";
 import { TipoUsuario } from "../../../models/usuario.model";
 import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
 import { Return } from "../../../shared/util/return.contract";
@@ -29,7 +30,13 @@ export class listRecrutadorUsecase {
       `listaRecrutadores`,
       result
     );
+    console.log("Passou aqui");
 
+    if (result.length > 2) {
+      console.log("Entrou aqui");
+
+      throw new Error("Erro teste");
+    }
     return {
       ok: true,
       code: 200,
