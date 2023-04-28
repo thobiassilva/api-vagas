@@ -9,7 +9,7 @@ export class CandidatoController {
     res: Response
   ) {
     try {
-      const { nome, usename, password } =
+      const { nome, username, password } =
         req.body;
 
       const result =

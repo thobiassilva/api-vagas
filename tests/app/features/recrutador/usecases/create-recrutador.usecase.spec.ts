@@ -7,7 +7,7 @@ import {
 import { RedisConnection } from "../../../../../src/main/database/redis.connection";
 import { TypeormConnection } from "../../../../../src/main/database/typeorm.connection";
 
-describe("Create recrutador usecase", () => {
+describe("Create recrutador usecase unit tests", () => {
   beforeAll(async () => {
     await TypeormConnection.init();
     await RedisConnection.connect();

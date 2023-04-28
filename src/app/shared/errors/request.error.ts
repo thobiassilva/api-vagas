@@ -21,11 +21,11 @@ export class RequestError {
   }
   public static invalidData(
     res: Response,
-    msg: string
+    message: string
   ) {
     return res.status(400).send({
       ok: false,
-      msg,
+      message,
     });
   }
 }

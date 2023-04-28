@@ -11,7 +11,7 @@ export class ListCandidatoUsecase {
         `listaCandidatos`
       );
 
-    if (listaCandidatos) {
+    if (listaCandidatos !== null) {
       return {
         ok: true,
         code: 200,

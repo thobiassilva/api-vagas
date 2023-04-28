@@ -8,7 +8,7 @@ import { CacheRepository } from "../../../../../src/app/shared/database/reposito
 import { RedisConnection } from "../../../../../src/main/database/redis.connection";
 import { TypeormConnection } from "../../../../../src/main/database/typeorm.connection";
 
-describe("list recrutador usecase", () => {
+describe("list recrutador usecase unit tests", () => {
   beforeAll(async () => {
     await TypeormConnection.init();
     await RedisConnection.connect();
@@ -86,6 +86,7 @@ describe("list recrutador usecase", () => {
     expect(result).toHaveProperty("data");
     expect(result.data).toBeDefined();
     expect(result.data).toHaveLength(2);
+    expect(cacheSpyOn).toHaveBeenCalled();
     expect(cacheSpyOn).toHaveBeenCalledWith(
       "listaRecrutadores",
       result.data
@@ -93,28 +94,28 @@ describe("list recrutador usecase", () => {
     expect(cacheSpyOn).toHaveBeenCalledTimes(1);
   });
 
-  //   test("deveria retornar um erro se a lista tiver mais que 2 elementos", async () => {
-  //     jest
-  //       .spyOn(CacheRepository.prototype, "get")
-  //       .mockResolvedValue(null);
-  //     jest
-  //       .spyOn(UsuarioRepository.prototype, "list")
-  //       .mockResolvedValue([
-  //         recrutador,
-  //         recrutador,
-  //         recrutador,
-  //       ]);
-  //     const cacheSpyOn = jest.spyOn(
-  //       CacheRepository.prototype,
-  //       "set"
-  //     );
+  test("deveria retornar um erro se a lista tiver mais que 2 elementos", async () => {
+    jest
+      .spyOn(CacheRepository.prototype, "get")
+      .mockResolvedValue(null);
+    jest
+      .spyOn(UsuarioRepository.prototype, "list")
+      .mockResolvedValue([
+        recrutador,
+        recrutador,
+        recrutador,
+      ]);
+    const cacheSpyOn = jest.spyOn(
+      CacheRepository.prototype,
+      "set"
+    );
 
-  //     const sut = makeSut();
+    const sut = makeSut();
 
-  //     const promise = sut.execute();
+    const promise = sut.execute();
 
-  //     expect(promise).rejects.toThrow(
-  //       new Error("Erro teste")
-  //     );
-  //   });
+    expect(promise).rejects.toThrow(
+      new Error("Erro teste")
+    );
+  });
 });
