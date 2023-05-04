@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 export const databaseEnv = {
@@ -7,4 +7,5 @@ export const databaseEnv = {
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   nodeEnv: process.env.DB_SYS,
+  apiEnv: process.env.API_ENV,
 };

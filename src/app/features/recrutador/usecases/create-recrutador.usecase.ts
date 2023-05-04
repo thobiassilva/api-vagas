@@ -1,7 +1,7 @@
-import { Recrutador } from "../../../models/recrutador.model";
-import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
-import { Return } from "../../../shared/util/return.contract";
-import { UsuarioRepository } from "../../usuario/database/usuario.repository";
+import { Recrutador } from '../../../models/recrutador.model';
+import { CacheRepository } from '../../../shared/database/repositories/cache.repository';
+import { Return } from '../../../shared/util/return.contract';
+import { UsuarioRepository } from '../../usuario/database/usuario.repository';
 
 interface CreateRecrutadorParams {
   nome: string;
@@ -11,22 +11,17 @@ interface CreateRecrutadorParams {
 }
 
 export class CreateRecrutadorUsecase {
-  public async execute(
-    data: CreateRecrutadorParams
-  ): Promise<Return> {
+  public async execute(data: CreateRecrutadorParams): Promise<Return> {
     // validar usuario existe (username)
 
     const repository = new UsuarioRepository();
-    const usuario =
-      await repository.getByUsername(
-        data.username
-      );
+    const usuario = await repository.getByUsername(data.username);
 
     if (usuario !== null) {
       return {
         ok: false,
         code: 400,
-        message: "Usuario já existe",
+        message: 'Usuario já existe',
       };
     }
     // criar model recrutador
@@ -40,23 +35,19 @@ export class CreateRecrutadorUsecase {
 
     // salvar usuario no BD
 
-    const result = await repository.create(
-      recrutador
-    );
+    const result = await repository.create(recrutador);
 
     // deletar cache
 
     const cacheRepository = new CacheRepository();
-    await cacheRepository.delete(
-      `listaRecrutadores`
-    );
+    await cacheRepository.delete(`listaRecrutadores`);
 
     // reotrnar user criado
 
     return {
       ok: true,
       code: 201,
-      message: "Usuario criado com sucesso",
+      message: 'Usuario criado com sucesso',
       data: result,
     };
   }
