@@ -1,8 +1,9 @@
-import { Vaga } from "../../../models/vaga.model";
-import { CacheRepository } from "../../../shared/database/repositories/cache.repository";
-import { Return } from "../../../shared/util/return.contract";
-import { UsuarioRepository } from "../../usuario/database/usuario.repository";
-import { VagaRepository } from "../database/vaga.repository";
+import { Vaga } from '../../../models/vaga.model';
+import { CacheRepository } from '../../../shared/database/repositories/cache.repository';
+import { Return } from '../../../shared/util/return.contract';
+import { UsuarioRepository } from '../../usuario/database/usuario.repository';
+import { VagaRepository } from '../database/vaga.repository';
+import { isBefore } from 'date-fns';
 
 interface CreateVagaParams {
   descricao: string;
@@ -14,38 +15,31 @@ interface CreateVagaParams {
 }
 
 export class CreateVagaUsecase {
-  public async execute(
-    data: CreateVagaParams
-  ): Promise<Return> {
+  public async execute(data: CreateVagaParams): Promise<Return> {
     // validar campos
 
     // verificar dtLimite
-    if (data.dtLimite < new Date()) {
+    if (new Date(data.dtLimite) < new Date()) {
       return {
         ok: false,
         code: 400,
-        message:
-          "A data deve ser superior a data atual",
+        message: 'A data deve ser superior a data atual',
       };
     }
+
     if (data.indAtivo === undefined) {
       data.indAtivo = true;
     }
 
     // verificar recrutador existe
-    const usuarioRepository =
-      new UsuarioRepository();
-    const recrutador =
-      await usuarioRepository.get(
-        data.idRecrutador
-      );
+    const usuarioRepository = new UsuarioRepository();
+    const recrutador = await usuarioRepository.get(data.idRecrutador);
 
     if (!recrutador) {
       return {
         ok: false,
         code: 404,
-        message:
-          "O recrutador não foi encontrado",
+        message: 'O recrutador não foi encontrado',
       };
     }
 
@@ -68,7 +62,7 @@ export class CreateVagaUsecase {
     return {
       ok: true,
       code: 201,
-      message: "A vaga foi criada com sucesso",
+      message: 'A vaga foi criada com sucesso',
       data: vaga,
     };
   }
